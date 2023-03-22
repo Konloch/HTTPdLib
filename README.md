@@ -19,4 +19,4 @@ Add it as a maven dependency or just [download the latest release](https://githu
 * [Download Releases](https://github.com/Konloch/HTTPdLib/releases)
 
 ## How To Use
-[Click here](https://github.com/Konloch/HTTPdLib/tree/main/src/test/java/com/konloch) to view examples of how to implement the HTTP Server.
+[Click here]([https://github.com/Konloch/HTTPdLib/tree/main/src/test/java/com/konloch](https://github.com/Konloch/HTTPdLib/blob/main/src/test/java/com/konloch/TestHTTPServer.java) to view an example of how to implement the HTTP Server.

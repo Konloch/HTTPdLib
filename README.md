@@ -1,7 +1,7 @@
 # HTTPdLib
 Build your own HTTP server using HTTPdLib. It's an easy-to-use zero dependency non-blocking HTTP web server for Java.
 
-This library is designed for embedding a high performant web server into your Java application.
+Designed for embedding a high performant web server into your Java application.
 
 ## How To Add As Library
 Add it as a maven dependency or just [download the latest release](https://github.com/Konloch/HTTPdLib/releases).

@@ -3,7 +3,10 @@ Build your own HTTP server using HTTPdLib - An easy-to-use zero dependency non-b
 
 **Designed for embedding a high performant web server into your Java application.**
 
-## How To Add As Library
+## 💡 Requirements
++ Java Runtime 1.8 **or higher**
+
+## ⚙️ How To Add As Library
 Add it as a maven dependency or just [download the latest release](https://github.com/Konloch/HTTPdLib/releases).
 ```xml
 <dependency>
@@ -13,10 +16,10 @@ Add it as a maven dependency or just [download the latest release](https://githu
 </dependency>
 ```
 
-## Links
+## 📚 Links
 * [Website](https://konloch.com/HTTPdLib/)
 * [Discord Server](https://discord.gg/aexsYpfMEf)
 * [Download Releases](https://github.com/Konloch/HTTPdLib/releases)
 
-## How To Use
+## 💻 How To Use
 [Click here](https://github.com/Konloch/HTTPdLib/blob/main/src/test/java/com/konloch/TestHTTPServer.java) to view an example of how to implement the HTTP Server.

@@ -58,7 +58,7 @@ public class RequestBuilder
 			if(getIndex != -1)
 			{
 				final String getData = path.substring(getIndex);
-				get = decoder.decodeParameters(getData);
+				get = decoder.decodeParameters(getData.substring(1)); //substring the '?'
 				
 				//truncate path
 				path = path.substring(0, getIndex);

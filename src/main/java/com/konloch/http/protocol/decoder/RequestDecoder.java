@@ -79,59 +79,46 @@ public class RequestDecoder
 	 */
 	public HashMap<String, String> decodeParameters(String rawParameters)
 	{
+		if (rawParameters == null || rawParameters.isEmpty())
+			return new HashMap<>();
+		
 		HashMap<String, String> parameters = new HashMap<>();
 		
-		char[] chars = rawParameters.toCharArray();
-		StringBuilder key = new StringBuilder();
-		StringBuilder value = new StringBuilder();
-		boolean keyFlag = true;
-		for(char c : chars)
-		{
-			//verify ascii only
-			//TODO may want to just stop the request entirely and throw a 500
-			if(!isAscii(c))
-				continue;
-			
-			//looking for the key
-			if(keyFlag)
-			{
-				//skip all spaces in the key
-				if(c == ' ')
-					continue;
-				
-				//no longer a key when the '=' character is found
-				if(c == '=')
-					keyFlag = false;
-				else
-					key.append(c);
-			}
-			
-			//looking for value
-			else
-			{
-				//end of value search
-				if(c == '&')
-				{
-					if(key.length() > 0 && value.length() > 0)
-						parameters.put(key.toString(), value.toString());
-					
-					key = new StringBuilder();
-					value = new StringBuilder();
-					keyFlag = true;
-					
-					if(parameters.size() >= server.getMaximumHeaderParameterSize())
-						break;
-				}
-				else
-					value.append(c);
-			}
-		}
+		int start = 0;
+		int end = 0;
 		
-		//add the last key / value in the buffer as long as it's valid
-		if(!keyFlag && parameters.size() < server.getMaximumHeaderParameterSize())
+		while (end < rawParameters.length())
 		{
-			if(key.length() > 0 && value.length() > 0)
-				parameters.put(key.toString(), value.toString());
+			//find the position of the next '&' character
+			end = rawParameters.indexOf('&', start);
+			if (end == -1)
+			{
+				//if no '&' is found, set 'end' to the end of the string
+				end = rawParameters.length();
+			}
+			
+			//extract the current parameter substring
+			String paramPair = rawParameters.substring(start, end);
+			
+			//split the parameter into key and value
+			int equalsIndex = paramPair.indexOf('=');
+			if (equalsIndex != -1)
+			{
+				String key = paramPair.substring(0, equalsIndex).trim();
+				String value = paramPair.substring(equalsIndex + 1).trim();
+				
+				
+				//verify ascii only
+				//TODO may want to just stop the request entirely and throw a 500
+				if(isAscii(key) && isAscii(value))
+				{
+					//TODO add additional checks here, like maximum size.
+					parameters.put(key, value);
+				}
+			}
+			
+			//move 'start' to the character after the current '&'
+			start = end + 1;
 		}
 		
 		return parameters;
@@ -199,6 +186,25 @@ public class RequestDecoder
 		}
 		
 		return cookies;
+	}
+	
+	
+	/**
+	 * return if all characters are ascii
+	 *
+	 * @param s any string
+	 * @return true if the character is ascii
+	 */
+	public static boolean isAscii(String s)
+	{
+		char[] arr = s.toCharArray();
+		for(char c : arr)
+		{
+			if(!isAscii(c))
+				return false;
+		}
+		
+		return true;
 	}
 	
 	/**

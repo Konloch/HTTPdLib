@@ -57,9 +57,11 @@ public class RequestBuilder
 			final int getIndex = path.indexOf('?');
 			if(getIndex != -1)
 			{
-				path = path.substring(0, getIndex);
 				final String getData = path.substring(getIndex);
 				get = decoder.decodeParameters(getData);
+				
+				//truncate path
+				path = path.substring(0, getIndex);
 			}
 			else
 				get = new HashMap<>();

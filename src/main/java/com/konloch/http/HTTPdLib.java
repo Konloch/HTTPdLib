@@ -43,9 +43,11 @@ public class HTTPdLib
 		//setup the request filter
 		client ->
 		{
+			AtomicLong simultaneousConnections = simultaneousConnectionMap.get(client.getRemoteAddress());
+			
 			//only allow X simultaneous connections
-			if(simultaneousConnectionMap.containsKey(client.getRemoteAddress()))
-				return simultaneousConnectionMap.get(client.getRemoteAddress()).incrementAndGet() <= maximumSimultaneousConnections;
+			if(simultaneousConnections != null)
+				return simultaneousConnections.incrementAndGet() <= maximumSimultaneousConnections;
 			else
 			{
 				//no other simultaneous connections
@@ -185,7 +187,8 @@ public class HTTPdLib
 		{
 			connected.remove(client.getUID());
 			
-			if(simultaneousConnectionMap.get(client.getRemoteAddress()).decrementAndGet() <= 0)
+			AtomicLong simultaneousConnections = simultaneousConnectionMap.get(client.getRemoteAddress());
+			if(simultaneousConnections != null && simultaneousConnections.decrementAndGet() <= 0)
 				simultaneousConnectionMap.remove(client.getRemoteAddress());
 		});
 	}
